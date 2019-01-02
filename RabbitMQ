@@ -24,3 +24,4 @@ Rabbit MQ
 		- Fanout Exchange - Broadcast to all the queues 
 		- Topic Exchange - based on wildcard charecter- multicast message
 		- Header Exchange
+Publisher -Publish--> Exchange -Routes [based on Routine Key]--> Queue -consumes->Consumer (Ack)
