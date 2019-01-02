@@ -1,0 +1,100 @@
+Microservices
+
+- Monolithic - uses load balance to distribute the load to other servers deployed with the service.
+	-Upgrage is possible as contract based access by the clients.
+	Issues:
+	- One bug fix affects afters areas, slower changes, slower deployment time.
+	- fixed technology stack for all the sub components.
+	- High coupling.
+	- Unit test and test will increase even for small changes.
+	- Failure affects whole system.
+	
+	
+- MS is evolution of SOA. ie doing SOA in right way.
+	- how to size service correctly.
+	- Efficently scalable, Flexible, High performant.  eg. specfic service has more inputs hence hardware or instances could be increased.
+		- On demand deployment - for more cost effective and for efficient usage - cloud services.
+	- Single focused
+	- Light weight of communication
+	- Open communication protocol so no hard rule to be implemented specific. - HTTP Rest
+		-- New technology and efficent tech to get more performant edge. For eg specfic database type for specific services for more efficiency.
+		- simple client side comminication support.
+	- Independent datastorage.
+	- Decoupled upgrade or change with affecting other.
+	- Independently deployable.
+		- Better UP times.
+	- Distributed transaction 
+		- Async communication technology doesnt need to wait as it could operate in parellel.
+	- Centralized tool to check the health of service
+		-- Centralized tools to deploy 
+	- Quick changes.
+		- frequent updates.
+		- faster to find bug instead.
+	- Business Domain Driven design.- Specific to business in an organisation eg order, sales, after sales, Inventory.
+		- better ownership and knowledge of specific work flow.
+	- Automated test tools to test distributed transactions is tough.
+	- Security - as now data is spread across.- Also seprate security mechanism.
+
+	Design principal
+	
+	High cohesion - 
+	Single focused - All inputs and outputs should be more focused.- Single Responsibilty principal. 
+		- Change reason - Business fucntion or Domain
+		- Also Encapsule all associated into one unit. OOPS principal
+		-How 
+			- Identify single focus.
+			- Further split into grined services
+		
+	Autonomous
+	- Loose coupling. - should not induce change when changed.
+	- Honor contract and Interfaces. - Input and output should not change - Backward compatible
+	- Stateless
+	- Independently deployable	- Independently changable
+	-How
+		- Communication by network. - Sync - 
+									  Aysnc - Event - Messge Broker
+		- Use of Open technologies - HTTP REST JSON and avoid click toolkits.
+		- Fixed interfaces.- Shared models.
+		- Avoid too much chatty exchanges - also increases coupling
+		- Avoid sharing databases. - Scehma changes and same technology.
+		- Avoid Shared Library - as bug in one would trigger change in both.
+		
+		- Owned by team 
+			- better contact requirment, ownership 
+		- Avoid breaking changes - versioning and instances running.
+		
+			
+		
+	
+	Business Domain Centric 
+		- BDD - Responsive to Business changes 
+		- Business function or department [Account - Acc dept] [Orders - Orders dept]
+		- Some technical reason also 
+			- for efficiency.
+		
+	
+	Resilence
+		- Embrace failure 
+			failure types
+			- Exception\Error
+			- Delays
+			- Unavailable
+		- Degrade 
+		- Default
+		- Extra instances
+		How:
+		Use Timeouts - network and downstream - log them
+		 - for Requests, connected systems
+		
+	Observable
+		- System health - All
+		- Monitering - realtime monitering - response time and timeouts - collecting Number 
+		- logging - record information  - correlation ID for distributed transaction
+		- Distributed transaction
+		- Quick feedback for scaling up the system.
+		- Moniter Business data - average time - aggregate - Trends
+	
+	Automation
+		Tools to reduce manual testing 
+		Tools to provide independent feedback - continous integration
+		Deployment - automation
