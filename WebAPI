@@ -1,0 +1,97 @@
+- Naming of the APi is based on HTTP verb. which reduces complexity and increases readability. - more restful.
+Dependency injection - Ninject 
+	- Interally it initializes the interelated dependencies
+	- In RegisterServices 
+		- Need to Kernal.Bind all dependencies in Sequence
+	- Use different Models, to avoid anaymous types 
+    - ModelFactory - to build the final output
+	
+	- Web API Config file
+		- Can have templated routes - Increase readability 
+		- Map routes - Constraints - needs to Anaynmous Types - Regular expressions
+		  eg new { id = "/d+" } for Int. It could be used to refer date format 
+		- Defaults - needs to Anaynmous Types - Needs to be optional.
+		
+	- Urls to be included to identify the model data- and useful in versioning.[imp]
+		- url information logic needs to go in model factory. 
+		- UrlHelper - comes from web.http.routing - needs to pass HttpRequestMessage
+		- UrlHelper.Link 
+		
+	- Make a seperate service for the identity provider - As also helpful in testing and injecting.
+		- make it local to the control if not used througout.
+		- Init with the Ninject binding.
+	- Use return type HttpResponseMessage- if we want more control over error response or status code with Http code.
+		- this goes as header with status code of message
+		
+	- Put by concept needs to be complete object to passed. with all the filled values.
+		- for Partial updates use PATCH instead. Patch is an HTTP verb
+		- Can u attribute on a method to support both PUT and PATCH [HttpPut] and [HTTPPatch]
+	- If data structure is IQuerable the using Linq is good Idea.
+	
+	- By providing IDs and URL - simplify the API use.
+	- Good practice to make API result more helpful by providing option to walk through by clicking previous and next.
+	- Use Anaynmous types unless they are entities u are producing.
+	
+	- API are functional calls just like RPC - Stateless - COuld Cache heavy Ops - custom operations that are not associated with Resource4
+	- Association based - one controller to another are associated via the routes configured.
+	
+	- Security - Need filter  - Autherization filter attribute - Inject filter to the pipeline
+		- Override OnAutherization call - Takes HttpActionCOntext
+		- From Request COntext check for HTTP uri scheme 
+		- System.Net.HTTP create response extension method.
+		- Can also set the content string - which add the response header.
+		- request. method.method to check for specific verb type
+		- url builder to set new location in header.- with scheme - new ssl port 443.
+			- found + new location - allows to issue new request
+		- add preproces directive it doest get called in Test
+	
+	- CORS - Cross Orign Security - 
+		- calls from same website\domain are allowed by default.
+		- But calls from other web sites in other domains are not allowed in web API. 
+		- Mainly javascript code on pages of other website calling web API is not allowed.
+	- This is done two approaches:
+		- CORS - Cross orign resource sharing- WebAPI 2.0 onwards
+			- EnableCors - for full web Enable COR attribute in Register Method. 
+			--> at method level Enable and Disble CORS
+			
+		
+		- JSONP - response json is wrapped Javascript object piece. - Allowed in multiple domain - called as application\Javascript 
+			- Add fomatter - Web API contrib JSONP - JSONPmediaTypeFormater - MediaTypeformater - passing JSON formater.
+			- config formater insert - fallback as JSONP formatter.
+			- Wraps WEB API call in javascript function - using the query string named callback
+			
+	- Authentication and Autherization
+	
+		- Authentication - Determine Identity
+			- Developer - APP key or secret key
+			- Actual users - Specific data access 
+				-Basic Auth, O Auth, Intergrated Auth
+			- Basic Auth - always puts the identity in header of the request.- Add filter as implementing AutherizationFilterAttribute - Http.web.filter namespace
+					- On Autherization method:  - must have HTTPS- as clear text over the wire.- to avoid man in middle attack.
+						- 	Check for header for scheme containing basic
+						-	Encoding - base 64 and specification ISO-8859-1
+						- 	Slipt username and password by : colon
+						- Developer can have access to user cred
+						
+	- Token Based Autherization
+		- GITHub and facebook etc uses.
+		- Based on APIkey - base64 string - signature is matched -against the stored signature
+			- Token along with expiration of token.
+			- While sending request user has to send - APIkey + Signature
+				- In response - Gets the Token
+		- Basic Authentication + Token - Token to check user is allowed and then Basic Authentication to check user specific access
+	- OAuth
+		
+		
+	- API Versioning - Used when need to support new functionality and along with it also support backward compatibility.
+		- Query string
+		- Header based 
+		- Accept header based
+		- Media Type header
+		
+	Routes:
+	
+		- RoutePrefix - for providing route information on the controller level
+		- Routes - can have constraints defined like ALpha or int - else will get ambiguty error. Constraint should be provided colon separated.
+		- Named Routes
+		- IHttpActionResult- makes code more readable.
