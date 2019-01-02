@@ -1,0 +1,26 @@
+Rabbit MQ
+-MSMQ 
+- Reliabily message delivery - Windows only  - failure scenarios seprate queue- until sucessful.- Support transaction Microsoft distributed transaction coordinator
+
+- Built with erlang - dev by erricsion
+	- Reliability 
+	- Routing
+	- High Availibilty 
+	- Management Web
+	- Command Line interface
+	
+	- Centralized - send to central server and subscriber gets from there.
+	- Multiplatform 
+	- Implements Message standards - AMQP - Advanced Message Queue protocol.- N/w protocol - Version 0-9-1
+	- Exchanges 
+			- Has Attributes 
+				- Name, 
+				- persisitance to disk , 
+				- Auto Delete when fished usage, 
+				- Argument - Message broker dependent.
+				- Class should be marked serializable- Message to be serialized and then deserialized
+					- Message - Object is serialized to JSON and then this JSON is converted into Byte array. [Encoding.ASCII.Getbytes]
+		- Direct Exchange - based on message routing key - adds to queue based on key match.
+		- Fanout Exchange - Broadcast to all the queues 
+		- Topic Exchange - based on wildcard charecter- multicast message
+		- Header Exchange
