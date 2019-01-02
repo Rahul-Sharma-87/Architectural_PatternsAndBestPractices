@@ -1,0 +1,87 @@
+using System;
+using System.Diagnostics;
+using System.Windows;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Threading;
+
+namespace Dymanic
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window {
+        public MainWindow() {
+            InitializeComponent();
+        }
+
+        private Random randomNumGen = new Random(100);
+
+        private int SomeSlowWork() {
+            Thread.Sleep(5000);
+            return randomNumGen.Next(Int32.MaxValue);
+        }
+
+        private void btnClickMe_Click(object sender, RoutedEventArgs e) {
+            Debug.WriteLine("btnClickMe_Click Thread Name: " + Thread.CurrentThread.ManagedThreadId);
+            TaskBasedVersionOnClick1();
+            //TaskBasedVersionOnClick();
+            //SynchronizationVerion();
+            //ThreadPool.QueueUserWorkItem(CallUIUpdate);
+        }
+
+        private void CallUIUpdate(object state) {
+            Debug.WriteLine("CallUIUpdate Thread Name: " + Thread.CurrentThread.ManagedThreadId);
+            Action<int> action = UpdateUI;
+            int data = SomeSlowWork();
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,action, data);
+        }
+
+        private void UpdateUI(int data) {
+            Debug.WriteLine("UpdateUI Thread Name: " + Thread.CurrentThread.ManagedThreadId);
+            lblTextOut.Content = data;
+        }
+
+        //For Non WPF code to use WPF dispatcher
+        private void SynchronizationVerion() {
+            //Must be called on UI Thread
+            SynchronizationContext syncContext = SynchronizationContext.Current;
+            ThreadStart ts = delegate {
+                var data = SomeSlowWork();
+                syncContext.Post(delegate {  UpdateUI(data);}, null);
+            };
+            ts.BeginInvoke(
+                delegate(IAsyncResult iar)
+                {
+                    ts.EndInvoke(iar);
+                }, null);
+        }
+
+        //Task Based Update
+        private void TaskBasedVersionOnClick()
+        {
+            int data =0;
+            Task task = new Task(() => { data = SomeSlowWork();});
+            task.ContinueWith((antecedent) => { UpdateUI(data);},TaskScheduler.FromCurrentSynchronizationContext());
+            task.Start();
+
+        }
+
+        //Task Based Update
+        private void TaskBasedVersionOnClick1()
+        {
+            int data =0;
+            Task task = Task.Factory.StartNew(() => { data = SomeSlowWork();});
+            task.ContinueWith((antecedent) => { UpdateUI(data);},TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private void TaskCompiled()
+        {
+            int x = 100;
+            Action test = delegate { 
+                x = x + 1;
+            };
+            test.Invoke();
+        }
+    }
+}
