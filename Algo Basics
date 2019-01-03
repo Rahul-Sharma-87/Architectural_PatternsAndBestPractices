@@ -1,0 +1,27 @@
+Big O asymptotic Analysis
+
+Graph is allocated against time and distance, to check the possible with large number of inputs
+
+T = an + b = variable term is considered, fastest growing term and cofficient is taken = O(n)
+T = 5n2+n+1 = O(n2)
+
+Types of Algo Graphs 
+- Linear time - O(n)
+- Constant time - O(1)
+- Quadratic time - O(n -sq)
+
+Prime Number     Approach 1	- Divide numbers till N-1		 Approach
+2	1s				n-2 (as starts with 2)					   sqrt n 
+3
+5
+7
+11
+13
+.
+.
+.
+10-pwr-6			10-pwr-6 = 100s	- O(n)					  10-pwr-3 = 1s - O(sqrt n)
+
+N X N array - find sum - Needs to traverse N*N times - hence O(N2)
+
+* N square is as N2
