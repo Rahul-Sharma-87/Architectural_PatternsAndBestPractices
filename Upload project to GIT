@@ -1,0 +1,9 @@
+Upload project to Git
+make repository online
+1. Project folder to upload - Git init
+2. git add remote origin <url>
+3. Git status
+4. Git add
+5. Git status
+6. Git Commit -m "comment"
+7. git push orign master
